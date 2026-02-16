@@ -59,6 +59,9 @@ const requestLogger = (req, res, next) => {
     next(); // Pass control to next middleware
 };
 
+// Custom logging middleware
+app.use(requestLogger);
+
 // Routes
 app.get('/api/todos', (req, res) => {
     res.json(todos);
