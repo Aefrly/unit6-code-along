@@ -63,6 +63,34 @@ const requestLogger = (req, res, next) => {
 // Custom logging middleware
 app.use(requestLogger);
 
+// Complete validation rules for todos
+const todoValidation = [
+  body('task')
+    .isLength({ min: 3 })
+    .withMessage('Task must be at least 3 characters long'),
+  
+  body('description')
+    .isLength({ min: 10 })
+    .withMessage('Description must be at least 10 characters long'),
+  
+  body('priority')
+    .isIn(['low', 'medium', 'high'])
+    .withMessage('Priority must be low, medium, or high'),
+  
+  body('dueDate')
+    .isISO8601()
+    .withMessage('Due date must be a valid date (YYYY-MM-DD)'),
+  
+  body('tags')
+    .isArray({ min: 1 })
+    .withMessage('Tags must be an array with at least one tag'),
+  
+  body('completed')
+    .optional()
+    .isBoolean()
+    .withMessage('Completed must be true or false')
+];
+
 // Routes
 app.get('/api/todos', (req, res) => {
     res.json(todos);
