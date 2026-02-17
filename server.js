@@ -112,6 +112,16 @@ const handleValidationErrors = (req, res, next) => {
     next();
 };
 
+//Apply validation to POST route
+app.post('/api/todos', todoValidation, handleValidationErrors, (req, res) => {
+	// No other updates
+});
+
+//Apply validation to PUT route
+app.put('/api/todos/:id', todoValidation, handleValidationErrors, (req, res) => {
+	// No other updates
+});
+
 // Routes
 app.get('/api/todos', (req, res) => {
     res.json(todos);
