@@ -91,6 +91,27 @@ const todoValidation = [
     .withMessage('Completed must be true or false')
 ];
 
+const handleValidationErrors = (req, res, next) => {
+    const errors = validationResult(req);
+  
+    if (!errors.isEmpty()) {
+        const errorMessages =
+    errors.array().map(error => error.msg);
+    
+        return res.status(400).json({
+            error: 'Validation failed',
+            messages: errorMessages
+        });
+    }
+  
+    // Set default value for completed if not provided
+    if (req.body.completed === undefined) {
+        req.body.completed = false;
+    }
+  
+    next();
+};
+
 // Routes
 app.get('/api/todos', (req, res) => {
     res.json(todos);
