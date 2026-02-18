@@ -112,16 +112,6 @@ const handleValidationErrors = (req, res, next) => {
     next();
 };
 
-//Apply validation to POST route
-app.post('/api/todos', todoValidation, handleValidationErrors, (req, res) => {
-	// No other updates
-});
-
-//Apply validation to PUT route
-app.put('/api/todos/:id', todoValidation, handleValidationErrors, (req, res) => {
-	// No other updates
-});
-
 // Routes
 app.get('/api/todos', (req, res) => {
     res.json(todos);
@@ -138,7 +128,7 @@ app.get('/api/todos/:id', (req, res) => {
     }
 });
 
-app.post('/api/todos', (req, res) => {
+app.post('/api/todos', todoValidation, handleValidationErrors, (req, res) => {
     const { task, description, priority, dueDate, tags } = req.body;
   
     const newTodo = {
@@ -155,7 +145,7 @@ app.post('/api/todos', (req, res) => {
     res.status(201).json(newTodo);
 });
 
-app.put('/api/todos/:id', (req, res) => {
+app.put('/api/todos/:id', todoValidation, handleValidationErrors, (req, res) => {
     const todoId = parseInt(req.params.id);
     const { task, description, priority, completed, dueDate, tags } = req.body;
     
